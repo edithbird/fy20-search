@@ -1,0 +1,73 @@
+---
+title: "Duplicate Address"
+author: "Office of Marketing and Brand Management"
+date: "5/13/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(knitr)
+```
+
+```{r}
+Address <- read.csv("C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_April_Search/SF_Downloaded_Names/DupAddress.csv", header = T, stringsAsFactors = F)
+```
+
+```{r}
+LastNameAddress <- Address %>% group_by(address,Last) %>% summarise(n = n(
+  
+)) %>% arrange(n)
+```
+
+
+```{r}
+origAddress <- Address %>% group_by(address) %>% summarise(n = n(
+  
+)) %>% arrange(n) %>% filter(n>2)
+
+kable(origAddress)
+sum(origAddress$n)
+```
+
+```{r}
+# address <- as.character(unique(Address$address))
+# length(address)
+# head(origAddress)
+# lat <- rep("", 531)
+# lon <- rep("", 531)
+# geoAddress <- rep("", 531)
+# origAddress <- data.frame(address = as.character(address))
+# 
+# origAddress[] <- lapply(origAddress, as.character)
+# 
+# head(origAddress)
+
+
+```
+
+
+```{r}
+# register_google(key = "AIzaSyDd6IQh69IPQUJSdfjxF0BXXo-g3uCLoMg")
+```
+
+
+```{r}
+# library(ggmap)
+# # Loop through the addresses to get the latitude and longitude of each address and add it to the
+# # origAddress data frame in new columns lat and lon
+# for(i in 1:nrow(origAddress))
+# {
+#   # Print("Working...")
+#   result <- geocode(origAddress$address[i], output = "latlona", source = "google")
+#   origAddress$lon[i] <- as.numeric(result[2])
+#   origAddress$lat[i] <- as.numeric(result[3])
+#   origAddress$geoAddress[i] <- as.character(result[4])
+# }
+
+```
+

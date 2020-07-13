@@ -1,0 +1,213 @@
+---
+title: 'FY20_Search_November 2019'
+author: "Office of Marketing and Brand Management"
+date: "Updated on `r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(salesforcer)
+library(knitr)
+library(RForcecom)
+library(stringr)
+library(tidyr)
+```
+
+```{r cars}
+username <- "christine.iyer@maine.edu"
+password <- "1Edithandoliver"
+securityToken <- "iFhpXgaXnuP3L5PQr69Zw2yOy"
+instanceURL <- "https://login.salesforce.com/"
+apiVersion <- "44.0"
+
+#auth <- sf_auth(username = username, password = password, security_token = securityToken,
+  #login_url = getOption("https://login.salesforce.com/"))
+
+
+
+session <- sf_auth(username, password, securityToken, instanceURL, apiVersion)
+```
+
+```{r}
+#sf_auth()
+```
+
+```{r}
+
+username <- "christine.iyer@maine.edu"
+password <- "1EdithandoliveriFhpXgaXnuP3L5PQr69Zw2yOy"
+#securityToken <- ""
+instanceURL <- "https://na24.salesforce.com/"
+apiVersion <- "44.0"
+
+
+
+
+
+session <- rforcecom.login(username, password, instanceURL,apiVersion  ) 
+```
+
+
+
+```{r}
+my_soql <- sprintf("SELECT Id,
+                           CreatedDate,
+                           Email, 
+                           FirstName, 
+                           LastName,
+                           TargetX_SRMb__Status__c, TargetX_SRMb__Student_Type__c,
+                           TargetX_SRMb__Anticipated_Start_Term__c,
+                           TargetX_SRMb__Anticipated_Start_Term_Year__c, 
+                           App_Application_Date__c,  
+                           TargetX_SRMb__Gender__c,  
+                           TargetX_SRMb__Last_Data_Input_Source__c,                                                                Initial_Source_Date__c, 
+                           Initial_Referral_Source__c, 
+                           Recruiting_Category__c,
+                           Ref__c, 
+                           Primary_State_Code__c
+                           
+                    FROM Contact 
+                    WHERE DAY_ONLY(CreatedDate) > 2019-12-01 AND DAY_ONLY(CreatedDate) < 2019-12-06 AND TargetX_SRMb__Status__c != 'Lead' 
+                    AND Recruiting_Category__c != ' '")
+
+queried_records <- sf_query(my_soql)
+#kable(head(queried_records))
+# dim(queried_records)
+# queried_records
+# unique(queried_records$Ref__c)
+```
+
+
+
+
+```{r}
+LeadsUploaded <- read.csv("file:///C:/Users/christine.iyer/Desktop/Fall19Leads/Fall2019LeadsafterUploadAndDeDuped.csv", header = T, stringsAsFactors = F)
+
+
+
+
+
+```
+
+
+
+```{r}
+
+#dim(LeadsUploaded)
+# LeadsUploaded %>% group_by(Email) %>% summarise(n = n()) %>% filter(n>1)
+
+trythis <- merge(LeadsUploaded, queried_records, by = "Email" )
+trythis <- trythis %>% mutate(DateCollected = Sys.Date())
+
+#trythis
+# Don't forget to change the data!
+
+write.csv(trythis, "file:///C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_November_Search/Conversions Fall 2020/Conversion_04-06-20_DeDuped.csv")
+#trythis %>% 
+  #filter(Student.Stage == "Lead") %>% 
+  # mutate(Name = paste0(Last.Name, ", ", First.Name)) %>% 
+  # group_by(Student.Stage,TargetX_SRMb__Status__c,  Email, Created.Date, Ref__c, Recruiting_Category__c,Recruiting.Category) %>% summarise(n = n())
+# names(trythis)
+# head(trythis)
+# dim(trythis)
+```
+
+
+```{r}
+
+
+trythisGrouped <- trythis %>% mutate(
+  Vendor = ifelse(grepl('^N', Recruiting.Category), 'NRCCUA', 'College Board'),
+   Class = ifelse(grepl('SR', Recruiting.Category), 'Senior', 'Junior') ,
+    Geo = ifelse(grepl('O', Recruiting.Category), 'Out-of_State', 'In-State'))
+
+
+trythisGroupedStatus <- trythisGrouped %>% group_by(Vendor, Class, Geo,
+                                                    TargetX_SRMb__Status__c) %>% summarise(n = n())
+
+
+
+trythisGroupedStatus <- trythisGroupedStatus %>% spread(TargetX_SRMb__Status__c, n) %>% mutate_at(4:5, ~replace(., is.na(.), 0))
+
+trythisGroupedStatus <- trythisGroupedStatus %>%
+  group_by(Vendor, Class, Geo) %>% 
+  summarise(
+  Inquiry = (sum(Inquiry) + sum(Applicant)), 
+  Applicant = sum(Applicant))
+
+```
+
+```{r}
+LeadsUploaded <- LeadsUploaded %>% 
+  mutate(
+  Vendor = ifelse(grepl('^N', Recruiting.Category), 'NRCCUA', 'College Board'),
+   Class = ifelse(grepl('SR', Recruiting.Category), 'Senior', 'Junior'),
+  Geo = ifelse(grepl('O', Recruiting.Category), 'Out-of_State', 'In-State')) %>% 
+  group_by(Geo,Class, Vendor
+           ) %>% summarise(Leads = n())
+```
+
+```{r}
+nwew <- left_join(LeadsUploaded, trythisGroupedStatus)
+```
+
+
+```{r}
+nwew <- nwew %>% 
+  mutate(Inquiry_Yield = 
+          paste0(round(Inquiry/Leads * 100,2), "%"),
+         App_Yield = 
+          paste0(round(Applicant/Leads * 100,2), "%")) 
+         
+```
+
+
+**In-State Senior**
+
+```{r}
+kable(nwew %>% filter(Geo == "In-State" & Class == "Senior"))
+```
+
+```{r eval=FALSE, include=FALSE}
+nwew <- nwew %>% 
+  mutate(Inquiry_Yield = 
+          paste0(round(Inquiry/Leads * 100), 2), "%") 
+         # App_Yield = 
+         #  paste0(round((sum(Applicant)/sum(Leads) * 100), 2), "%")
+         
+
+kable(nwew)
+```
+
+**Out-of-State Senior **
+
+```{r}
+kable(nwew %>% filter(Geo == "Out-of_State" & Class == "Senior"))
+```
+
+**In-State Junior**
+
+```{r}
+kable(nwew %>% filter(Geo == "In-State" & Class == "Junior") %>% 
+        select(Geo:Inquiry_Yield))
+```
+
+**Out-of_State Junior**
+
+```{r}
+kable(nwew %>% filter(Geo == "Out-of_State" & Class == "Junior") %>% 
+        select(Geo:Inquiry_Yield))
+```
+
+

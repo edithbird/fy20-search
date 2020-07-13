@@ -1,0 +1,125 @@
+---
+title: "January, 2020 Lead Name Purchase: Final Proposal"
+author: "Office of Marketing and Brand Management"
+date: "2/18/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+I created a Wrike project for this January purchase and added the note you sent me via Slack per your meeting with Jared. You said to move ahead with a CB/NRCCUA purchase. I just want to clarify a couple of things. I thought we were only purchasing Junior names now because it's a little late for Seniors. Also, you said NH, MA, and CT...I'm assuming this means all counties because you didn't specify secondary and tertiary areas. And if memory serves, you said we can spend $10,000 towards the College Board purchase??? Also, will we make another purchase before the NRCCUA contract ends?
+ 
+ 
+1) Jared would like to get seniors from ME per our standard tactic, as well as NH as he's feeling pressure to bring numbers up for this coming Fall ('20)
+
+2) As for all counties, based on our parameters of $10k budget for CB, which allows us to buy 21,276 names, start with the primary and secondary markets, and if we have budget/volume remaining, move into the tertiary and Quarternary. For NRCCUA, if we can get all four markets, while leaving some names available to us in April (aligning to CB as a starting point, let's say ~ 10,660 April names from NRCCUA, too), that would be good.
+
+3) Names are available again in April from both CB & NRCCUA. We also will have $5k budget for CB. I'm pretty confident then we will move forward with an April buy. I say "pretty confident", because of course, anything can change between now and then. :)
+Let me know if I missed anything.
+
+## Primary Market - All Maine Counties
+
+### NRCCUA
+
+**Junior Names Available**
+
+HA: 282
+
+GA: 146
+
+AA: 8
+
+
+**Senior Names Available**
+
+HA: 1909
+
+GA: 303
+
+AA: 15
+
+### College Board
+
+**Junior Names Available**
+
+HA: 1,100 
+
+GA: 823 
+
+AA: 69 
+
+**Senior Names Available**
+
+HA: 1404
+
+GA: 262
+
+AA: 32
+
+## Secondary Market - MA: Middlesex County, NH: Rockingham, Hillsborough, Strafford Counties
+
+### NRCCUA
+
+**Junior Names Available**
+
+HA: 1378
+
+GA: 958
+
+AA: 58
+
+
+**Senior Names Available** NH: Rockingham, Hillsborough, Strafford Counties
+
+HA: 1215
+
+GA: 367
+
+AA: 37
+
+### College Board
+
+
+
+**Junior Names Available**
+
+HA: 3377 
+
+GA: 3270 
+
+AA: 257
+
+**Senior Names Available**
+
+HA: 1740
+
+GA: 1142
+
+AA: 302
+
+## Tertiary Markets- MA, NH, CT Remaining Counties
+
+### NRCCUA
+
+**Junior Names Available**
+
+HA: 9505
+
+GA: 9168 
+
+AA:  
+
+
+### College Board
+
+**Junior Names Available**
+
+HA: 
+
+GA: 7497
+
+AA: 

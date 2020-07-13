@@ -1,0 +1,68 @@
+---
+title: "SearchApril2020RawData"
+author: "Office of Marketing and Brand Management"
+date: "4/23/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(readxl)
+```
+
+
+
+
+
+
+
+```{r}
+zipF1<- read_excel("C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_April_Search/CBRaw/571641-S01.xlsx")
+zipF2 <- read_excel("C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_April_Search/CBRaw/571785-S01.xlsx")
+zipF3 <- read_excel("C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_April_Search/CBRaw/571810-S01.xlsx")
+zipF4 <- read_excel("C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_April_Search/CBRaw/568807-S01.xlsx")
+dim(zipF1)
+dim(zipF2)
+dim(zipF3)
+dim(zipF4)
+
+CBLeads <- rbind.data.frame(zipF1, zipF2, zipF3, zipF4)
+
+dim(CBLeads)
+
+write.csv(CBLeads, "C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_April_Search/April2020RawCB/CBRaw_04-20.csv")
+head(CBLeads %>% filter(STATE == "CT"))
+```
+
+```{r}
+library(zipcode)
+```
+
+```{r}
+FIPS <- read.csv("C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_April_Search/April2020RawCB/FIPSCodes.csv", header = T, stringsAsFactors = F)
+FIPS <- FIPS %>% mutate(COUNTY_CODE = clean.zipcodes(COUNTY_CODE))
+```
+```{r}
+Leads <- inner_join(CBLeads, FIPS)
+head(Leads)
+
+unique(Leads$GRAD_YEAR)
+```
+
+
+```{r}
+Leads <- Leads %>% mutate(Class = ifelse(GRAD_YEAR == "21", "JR", "PH"), County_State = paste0(County, ", ", STATE))
+secondary <- c("Middlesex, MA", "Strafford, NH" , "Hillsborough, NH", "Rockingham, NH")
+Leads <- Leads %>% mutate(Geo = ifelse(STATE == "ME", "Primary", ifelse(County_State %in% secondary, "Secondary", "Tertiary")))
+
+unique(Leads$Geo)
+secondaryState <- c("MA", "NH")
+```
+
+```{r}
+Leads %>% group_by(Geo, Class) %>% summarise(LeadsPurchased = n())
+```
+

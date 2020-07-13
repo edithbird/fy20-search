@@ -1,0 +1,125 @@
+---
+title: "FA20_Search_Jan2020_SR"
+author: "Office of Marketing and Brand Management"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+```{r}
+library(dplyr)
+library(salesforcer)
+library(knitr)
+library(RForcecom)
+```
+
+
+```{r cars}
+username <- "christine.iyer@maine.edu"
+password <- "1Edithandoliver"
+securityToken <- "iFhpXgaXnuP3L5PQr69Zw2yOy"
+instanceURL <- "https://login.salesforce.com/"
+apiVersion <- "44.0"
+
+#auth <- sf_auth(username = username, password = password, security_token = securityToken,
+  #login_url = getOption("https://login.salesforce.com/"))
+
+
+
+session <- sf_auth(username, password, securityToken, instanceURL, apiVersion)
+```
+
+```{r}
+#sf_auth()
+```
+
+```{r}
+
+username <- "christine.iyer@maine.edu"
+password <- "1EdithandoliveriFhpXgaXnuP3L5PQr69Zw2yOy"
+#securityToken <- ""
+instanceURL <- "https://na24.salesforce.com/"
+apiVersion <- "44.0"
+
+
+
+
+
+session <- rforcecom.login(username, password, instanceURL,apiVersion  ) 
+```
+
+
+```{r use this}
+my_soql <- sprintf("SELECT Id,
+                           CreatedDate,
+                           Email, 
+                           FirstName, 
+                           LastName,
+                           TargetX_SRMb__Status__c, TargetX_SRMb__Student_Type__c,
+                           TargetX_SRMb__Anticipated_Start_Term__c,
+                           TargetX_SRMb__Anticipated_Start_Term_Year__c, 
+                           App_Application_Date__c,  
+                           TargetX_SRMb__Gender__c,  
+                           TargetX_SRMb__Last_Data_Input_Source__c,                                                                Initial_Source_Date__c, 
+                           Initial_Referral_Source__c, 
+                           Recruiting_Category__c,
+                           Ref__c, 
+                           Primary_State_Code__c
+                           
+                    FROM Contact 
+                    WHERE DAY_ONLY(CreatedDate) > 2020-02-25 
+                    AND DAY_ONLY(CreatedDate) < 2020-03-03 
+                    AND TargetX_SRMb__Status__c != 'Lead' 
+                    AND (Lead_Segment_College_Board__c != ' ' 
+                    OR 	Lead_Segment_NRCCUA__c  != ' ') 
+                    AND TargetX_SRMb__Anticipated_Start_Year__c = 2020")
+
+queried_records <- sf_query(my_soql)
+```
+ 
+
+
+**January 2020**
+
+```{r}
+LeadsUploaded <- read.csv("C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_January_Search/FA20_Senior/FA20_Search_Jan2020_SR.csv", header = T, stringsAsFactors = F)
+Leads <- LeadsUploaded %>% mutate(Geo = ifelse(Primary.State.Province == "Maine", "In-State", "Out-of-State")) %>% group_by(Geo) %>% summarise(Leads = n())
+# LeadsUploaded %>% group_by(Email, Lead.Segment.College.Board, Lead.Segment.NRCCUA) %>% summarise(n = n()) %>% filter(n>1)
+
+trythis <- merge(LeadsUploaded, queried_records, by = "Email" )
+trythis <- trythis %>% mutate(DateCollected = Sys.Date())
+
+#trythis
+# Don't forget to change the date!
+
+write.csv(trythis,"C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_Combined_Search_Feb_March/Senior_Conversions/Conversions_4-28-20_DeDuped", row.names = F)
+# trythis %>% 
+#   #filter(Student.Stage == "Lead") %>% 
+#   mutate(Name = paste0(Last.Name, ", ", First.Name)) %>% 
+#   group_by(Student.Stage,TargetX_SRMb__Status__c,  Email, Created.Date, Ref__c, Recruiting_Category__c,Recruiting.Category, Lead.Segment.College.Board, Lead.Segment.NRCCUA) %>% summarise(n = n())
+
+```
+
+
+```{r}
+trythis1 <- trythis %>% group_by(Primary_State_Code__c) %>% summarise(Inqs = n())
+```
+
+
+```{r}
+
+kable(left_join(Leads,trythis1 %>% mutate(Geo = ifelse(Primary_State_Code__c == "ME", "In-State", "Out-of-State")) %>% group_by(Geo) %>% summarise(Inqs = sum(Inqs)) ) %>% mutate(Inquiry_Yield = paste0(round(Inqs/Leads*100,2), "%"), Leads = prettyNum(Leads, big.mark = ",")))
+
+
+```
+

@@ -1,0 +1,127 @@
+---
+title: "January, 2020 Lead Name Purchase: Final Proposal"
+author: "Office of Marketing and Brand Management"
+date: "2/18/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Outlined below is the final proposal for the January 2020 lead name purchase. Segmentation is based on  
+\href{https://docs.google.com/document/d/1qaOHZ7TpWGDZmaJ5zycjqpz-_aZbgO6-eaEdVxdr7uo/edit}{{\color{blue}{\underline{the guidelines linked here.}}}} In an effort to catch a few more Senior applications, this purchase is 80% Juniors and 20% Seniors.
+
+
+**Budget parameters:**
+
+* College Board: $10k budget, which allows us to buy 21,276 names. Start with the primary and secondary markets, and if we have budget/volume remaining, move into the tertiary and Quaternary. This leaves us with 5,000 (USD) budget for the April campaign.
+
+* NRCCUA: 22,368 pre-paid names. This will leave ~ 10,000  available names for the April campaign. 
+
+
+
+## Primary Market - All Maine Counties
+
+### NRCCUA
+
+**Junior Names Available**
+
+HA: 282
+
+GA: 146
+
+AA: 8
+
+
+**Senior Names Available**
+
+HA: 1909
+
+GA: 303
+
+AA: 15
+
+### College Board
+
+**Junior Names Available**
+
+HA: 1,100 
+
+GA: 823 
+
+AA: 69 
+
+**Senior Names Available**
+
+HA: 1404
+
+GA: 262
+
+AA: 32
+
+## Secondary Market - MA: Middlesex County, NH: Rockingham, Hillsborough, Strafford Counties
+
+### NRCCUA
+
+**Junior Names Available**
+
+HA: 1378
+
+GA: 958
+
+AA: 58
+
+
+**Senior Names Available** NH: Rockingham, Hillsborough, Strafford Counties
+
+HA: 1215
+
+GA: 367
+
+AA: 37
+
+### College Board
+
+
+
+**Junior Names Available**
+
+HA: 3377 
+
+GA: 3270 
+
+AA: 257
+
+**Senior Names Available**
+
+HA: 1740
+
+GA: 1142
+
+AA: 302
+
+## Tertiary Markets- MA, NH, CT Remaining Counties
+
+### NRCCUA
+
+**Junior Names Available**
+
+GA: 9168 
+
+HA: 9505
+
+AA:  ~
+
+
+### College Board
+
+**Junior Names Available**
+
+GA: 7497
+
+HA: ~
+
+AA: ~

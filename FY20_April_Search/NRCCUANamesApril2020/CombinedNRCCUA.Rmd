@@ -1,0 +1,88 @@
+---
+title: "FY20_Search_April"
+author: "Office of Marketing and Brand Management"
+date: "4/14/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(readxl)
+library(dplyr)
+library(tidyr)
+```
+
+
+C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_April_Search/NRCCUANamesApril2020/GA_PH.xlsx
+
+
+
+
+
+
+```{r}
+one <- "C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_April_Search/NRCCUANamesApril2020/GA_JR.xlsx"
+two <- "C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_April_Search/NRCCUANamesApril2020/AA_PH.xlsx"
+three <- "C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_April_Search/NRCCUANamesApril2020/AA_JR.xlsx"
+four <- "C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_April_Search/NRCCUANamesApril2020/HA_PH.xlsx"
+five <- "C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_April_Search/NRCCUANamesApril2020/HA_JR.xlsx"
+six <- "C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_April_Search/NRCCUANamesApril2020/GA_PH.xlsx"
+```
+
+```{r}
+one <- read_excel(one, sheet = "County")
+two <- read_excel(two, sheet = "County")
+three <- read_excel(three, sheet = "County")
+four <- read_excel(four, sheet = "County")
+five <- read_excel(five, sheet = "County")
+six <- read_excel(six, sheet = "County")
+
+NRCCUA <- rbind.data.frame(one,two, three,four,five,six)
+```
+
+```{r}
+dim(one)
+dim(two)
+dim(three)
+dim(four)
+dim(five)
+dim(six)
+dim(NRCCUA)
+```
+
+
+```{r}
+NRCCUA <- rbind.data.frame(one, two, three, four, five, six)
+unique(NRCCUA$County)
+```
+
+```{r}
+
+``` 
+
+```{r}
+secondary <- c("HILLSBOROUGH,NH","ROCKINGHAM,NH", "STRAFFORD,NH", "MIDDLESEX,MA" )
+
+NRCCUA <- NRCCUA %>% mutate(GeoTarget = ifelse(County %in% secondary, "Secondary", "Other"))
+NRCCUA <- NRCCUA %>% separate(County, c("County", "State"), sep = ",")
+unique(NRCCUA$State)
+
+
+NRCCUA <- NRCCUA %>% mutate(Geo = 
+                              ifelse(State == "ME", "Primary", ifelse(State == "CT", "Tertiary", 
+                                                                      ifelse(GeoTarget == "Secondary", "Secondary", "Tertiary"))))
+```
+
+```{r}
+NRCCUA <- NRCCUA %>% group_by(Geo, Class, State) %>% summarise(AvailableVolume = sum(`Student Volume`))
+sum(NRCCUA$AvailableVolume)
+```
+```{r}
+library(knitr)
+kable(NRCCUA)
+```
+
+meha

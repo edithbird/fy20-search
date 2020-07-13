@@ -1,0 +1,72 @@
+---
+title: "Untitled"
+author: "Office of Marketing and Brand Management"
+date: "3/2/2020"
+output: 
+  pdf_document :
+      latex_engine : xelatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+tinytex::install_tinytex()
+```
+
+Outlined below is the proposal for the February 2020 lead name purchase. Segmentation is based on  
+\href{https://docs.google.com/document/d/1qaOHZ7TpWGDZmaJ5zycjqpz-_aZbgO6-eaEdVxdr7uo/edit}{{\color{blue}{\underline{the guidelines linked here.}}}} Approved budget of 22,000 USD to purchase Junior and Sophomore for Fall 2021 and Fall 2022 recruiting, respectively.
+
+
+**Budget parameters:**
+
+* College Board: $22k budget, which allows us to buy 46,800 names. Start with the Juniors in the Tertiary markets where we left off in January 2020 and follow the segmentation protocol for Sophomores.
+
+## Tertiary Junior Availability
+
+HA: 11,011
+
+GA: 12,021
+
+AA: 1,904
+
+## Quaternary Junior Availability
+
+HA: 2,498
+
+GA: 1,928
+
+AA:	195
+
+## Primary Sophomore Availability
+
+HA: 1,894
+
+GA: 985
+
+AA: 68
+
+## Secondary Sophomore Availability
+
+HA: 2,694
+
+GA: 1,308
+
+AA:	93
+
+## Tertiary Sophomore Availability
+
+HA: 1,563
+
+GA: 8,012
+
+AA: 635
+
+
+### Final Estimate:
+
+The above search estimate is 63% Juniors and 37% Sophomores and includes a segment from all three achievement levels. 
+
+

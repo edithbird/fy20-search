@@ -1,0 +1,247 @@
+---
+title: "FY20_Search_January2020"
+author: "Office of Marketing and Brand Management"
+date: "Updated on `r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(dplyr)
+library(salesforcer)
+library(knitr)
+library(RForcecom)
+library(stringr)
+```
+
+
+```{r cars}
+username <- "christine.iyer@maine.edu"
+password <- "1Edithandoliver"
+securityToken <- "iFhpXgaXnuP3L5PQr69Zw2yOy"
+instanceURL <- "https://login.salesforce.com/"
+apiVersion <- "44.0"
+
+#auth <- sf_auth(username = username, password = password, security_token = securityToken,
+  #login_url = getOption("https://login.salesforce.com/"))
+
+
+
+session <- sf_auth(username, password, securityToken, instanceURL, apiVersion)
+```
+
+```{r}
+#sf_auth()
+```
+
+```{r}
+
+username <- "christine.iyer@maine.edu"
+password <- "1EdithandoliveriFhpXgaXnuP3L5PQr69Zw2yOy"
+#securityToken <- ""
+instanceURL <- "https://na24.salesforce.com/"
+apiVersion <- "44.0"
+session <- rforcecom.login(username, password, instanceURL,apiVersion  ) 
+```
+
+
+```{r use this}
+my_soql <- sprintf("SELECT Id,
+                           CreatedDate,
+                           Email, 
+                           FirstName, 
+                           LastName,
+                           TargetX_SRMb__Status__c, TargetX_SRMb__Student_Type__c,
+                           TargetX_SRMb__Anticipated_Start_Term__c,
+                           TargetX_SRMb__Anticipated_Start_Term_Year__c, 
+                           App_Application_Date__c,  
+                           TargetX_SRMb__Gender__c,  
+                           TargetX_SRMb__Last_Data_Input_Source__c,                                                                Initial_Source_Date__c, 
+                           Initial_Referral_Source__c, 
+                           Recruiting_Category__c,
+                           Ref__c, 
+                           Primary_State_Code__c, 
+                           Lead_Segment_College_Board__c,
+                           Lead_Segment_NRCCUA__c
+                           
+                    FROM Contact 
+                    WHERE DAY_ONLY(CreatedDate) > 2020-02-25 
+                    AND DAY_ONLY(CreatedDate) < 2020-03-13 
+                    AND TargetX_SRMb__Status__c != 'Lead' 
+                    AND (Lead_Segment_College_Board__c != ' ' 
+                    OR 	Lead_Segment_NRCCUA__c  != ' ') 
+                    
+                   "
+                   )
+
+queried_records <- sf_query(my_soql)
+```
+ 
+```{r}
+both <- "Both"
+
+queried_records <- queried_records %>% mutate(
+  Lead_Segment_College_Board__c = gsub(";", "", Lead_Segment_College_Board__c, fixed = TRUE), 
+  Lead_Segment_NRCCUA__c = gsub(";", "", Lead_Segment_NRCCUA__c, fixed = T),
+  Initial_Code = paste0(Lead_Segment_College_Board__c, Lead_Segment_NRCCUA__c), 
+  Initial_Code = gsub("NA" , "", Initial_Code, fixed = T), 
+  Initial_Code_len = str_length(Initial_Code), 
+  Initial_Code = ifelse(Initial_Code_len > 13,both,Initial_Code ), 
+  Vendor = ifelse(grepl("^N", Initial_Code), "NRCCUA", 
+                  ifelse(grepl("^P",Initial_Code),  "College Board", 
+                         ifelse(Initial_Code == "Both", "Both", "Neither"))), 
+  Id = str_sub(Id, 1, str_length(Id)-3),
+  Id = toupper(Id)) %>% filter(Vendor != "Neither")
+
+```
+
+
+
+January 2020 Leads
+
+```{r}
+LeadsUploaded <- read.csv("C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_Combined_Search_Feb_March/FY20_Feb_Search_Upload_DeDuped.csv", header = T, stringsAsFactors = F)
+LeadsUploaded <- LeadsUploaded %>% rename(Id = Contact.ID) %>% mutate(Id = toupper(Id))
+```
+
+```{r}
+LeadsUploaded <- LeadsUploaded %>%  mutate(
+  Lead.Segment.College.Board = gsub(";", "", Lead.Segment.College.Board, fixed = TRUE), 
+  Lead.Segment.NRCCUA = gsub(";", "", Lead.Segment.NRCCUA, fixed = T),
+  
+  Initial_Code = paste0(Lead.Segment.College.Board, Lead.Segment.NRCCUA), 
+  Initial_Code = gsub("NA" , "", Initial_Code, fixed = T), 
+  Initial_Code_len = str_length(Initial_Code), 
+  Initial_Code = ifelse(Initial_Code_len > 13,both,Initial_Code ), 
+  Vendor = ifelse(grepl("^N", Initial_Code), "NRCCUA", 
+                  ifelse(grepl("^P",Initial_Code),  "College Board", 
+                         ifelse(Initial_Code == "Both", "Both", "Neither"))), 
+  Class = 
+    ifelse(Anticipated.Start.Year == 2022, "Sophomore", 
+           ifelse(Anticipated.Start.Year == 2021, "Junior", "Senior")), 
+  Geo = ifelse(Primary.State.Province == "Maine", "In-State", "Out-of-State")) 
+
+
+```
+
+```{r}
+trythis1 <- merge(LeadsUploaded, queried_records, by = "Id" ) 
+trythis1 <- trythis1 %>% select(Id, Email = Email.x, Student.Stage, Anticipated.Start.Year,Vendor = Vendor.x, NewStatus = TargetX_SRMb__Status__c,AppStatus = App.Application.Status, City = Primary.City, Geo, Class)
+# trythis1 %>% group_by(Initial_Code.x) %>% summarise(n = n())
+# trythis1 %>% group_by(Initial_Code.y) %>% summarise(n = n())
+
+#trythis <- trythis %>% mutate(DateCollected = Sys.Date())
+
+# Don't forget to change the date!
+
+#Version 2 
+
+trythis2 <- merge(LeadsUploaded, queried_records, by = "Email" )
+trythis2 <- trythis2%>% select(Id = Id.x, Email, Student.Stage, Anticipated.Start.Year,Vendor = Vendor.x, NewStatus = TargetX_SRMb__Status__c,AppStatus = App.Application.Status, City = Primary.City, Geo) 
+#%>% filter(Anticipated.Start.Year == 2021)
+
+
+trythis3 <- left_join(trythis1, trythis2)
+
+
+
+
+trythis4 <- trythis3 %>% group_by(Vendor, Anticipated.Start.Year, NewStatus, Geo) %>% summarise(n = n()) %>% mutate(
+  Class = 
+    ifelse(Anticipated.Start.Year == 2022, "Sophomore", 
+           ifelse(Anticipated.Start.Year == 2021, "Junior", "Senior"))
+  #, 
+  #Geo = ifelse(State == "Maine", "In-State", "Out-of-State")
+  )
+      
+
+
+# trythis4 %>% group_by(Vendor, Class, Geo) %>% summarise(Inquiries = n())
+# Inquiries
+
+```
+
+
+```{r}
+#For Tracy's request College Board Juniors only
+
+
+Inquiries <- trythis4 %>% filter(Class == "Junior" & Vendor != "NRCCUA") %>% 
+  select(-Vendor) 
+Inquiries1 <- Inquiries %>%
+  group_by(Geo) %>% summarise(Inquiries = sum(n))
+  
+Applicants <- trythis4 %>% filter(NewStatus == "Applicant" & Class == "Junior" & Vendor != "NRCCUA") %>% 
+  group_by(Geo) %>% summarise(Apps = sum(n))
+
+Funnel <- merge(Inquiries1, Applicants)
+
+LeadsTracy <- LeadsUploaded %>% filter(Class == "Junior" & Vendor != "NRCCUA") %>%
+  group_by(Geo) %>% summarise(Leads = n())
+NewCBJRFunnel <- merge(LeadsTracy, Funnel) 
+
+
+NewCBJRFunnel <- NewCBJRFunnel %>% 
+  mutate(
+    InquiryYield = paste0(round(Inquiries/Leads*100, 2), "%"),
+    AppYield = paste0(round(Apps/Leads*100, 2), "%"),
+    
+    Leads = prettyNum(Leads, big.mark = ",")) %>% 
+  select(Geo, Leads , Inquiries, Apps, InquiryYield, AppYield)
+
+
+```
+
+```{r}
+write.csv(NewCBJRFunnel, "C:/Users/christine.iyer/Box/Search/FY19_Search/Search_February2019/FY20ConversionsCompare_06-03.csv", row.names = F)
+```
+
+```{r eval=FALSE, include=FALSE}
+head(LeadsUploaded)
+head(queried_records)
+#"Lead.Segment.College.Board"  "Lead.Segment.NRCCUA" 
+
+
+LeadsUploaded %>% group_by(Email, Lead.Segment.College.Board, Lead.Segment.NRCCUA) %>% summarise(n = n()) %>% filter(n>1)
+
+
+
+
+# Don't forget to change the date!
+
+```
+
+
+```{r}
+
+write.csv(trythis1, "C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_January_Search/FA21_Junior/Conversions/Conversion_06-03-20_DeDuped.csv")
+trythis1 <-  trythis1 %>%
+  #filter(Student.Stage == "Lead") %>%
+  #mutate(Name = paste0(Last.Name, ", ", First.Name)) %>%
+  group_by(Vendor,NewStatus,  Vendor, Geo) %>% summarise(n = n())
+
+```
+
+
+
+```{r}
+trythis1 <- trythis1 %>% group_by(Vendor,Geo) %>% summarise(Inqs = n())
+kable(trythis1)
+```
+
+
+```{r}
+#trythis1 %>% mutate(Recruiting.Category_Geo = ifelse(Primary_State_Code__c == "ME", "In-State", "Out-Of-State")) %>% group_by(Vendor,Recruiting.Category_Geo) %>% summarise(Inqs = sum(Inqs)) %>% filter(Vendor != "Both")
+
+```
+

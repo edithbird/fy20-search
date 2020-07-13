@@ -1,0 +1,325 @@
+---
+title: "FY21 Search: Cappex Leads"
+subtitle: "Office of Marketing and Brand Management"
+date: "`r Sys.Date()`"
+
+output:
+  tufte::tufte_handout:
+    citation_package: natbib
+    latex_engine: xelatex
+  tufte::tufte_html: default
+  tufte::tufte_book:
+    citation_package: natbib
+    latex_engine: tinytex
+bibliography: skeleton.bib
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+library(tufte)
+library(knitr)
+library(formatR)
+library(blastula)
+library(gt)
+library(glue)
+library(formattable)
+library(hms)
+library(tidyverse)
+library(knitr)
+library(ggpubr)
+
+
+# invalidate cache when the tufte version changes
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE,
+	cache.extra = packageVersion("tufte"),
+	tidy = FALSE
+)
+options(tinytex.verbose = TRUE)
+```
+
+```{r, include=FALSE}
+options(tinytex.verbose = TRUE)
+```
+
+# __FY21 Cappex Leads: What we ordered vs. what we received__
+
+# Description
+
+In May, 2020, the Office of Marketing and Brand Management decided to purchase lead names from Cappex in a one time sale for up to `$5,000.00` The deduped named would cost `$0.47` each. 
+
+__Timeline of the events as chronicled by email__ 
+
+
+__Tuesday, May 26, 2020 12:54 PM Tracy__ 
+
+Sent email to Tisleen with the following parameters for Cappex leads we would like to purchase with a budget of +/- 5K.
+
+Hi Tisleen -
+I'd like to move forward with this. Let me know if (or how much) we can receive the following, 
+
++ my budget is $5k, +/-:
+
+  + Juniors/rising seniors
+  + Sophomores/rising juniors
+  + Freshman/rising sophomores
+
++ GPA 
+
+  + Between 2.3 - 4.0 and/or letter grades C+ to A+
+ 
++ GeoTargeting
+
+  + MAINE
+    + All counties
+    + SAT scores between 800 – 1400; PSAT scores between 720 – 1520
+ 
++ O-O-S:
+
+  + MA - Middlesex county
+  + NH - Hillsborough, Rockingham, and Strafford Counties
+  + CT - Hartford and Fairfield
+  + SAT scores between 800 – 1200; PSAT scores between 720 – 1300
+ 
++ Majors or Areas of Interests
+
+  + Honors
+  + Visual Arts
+  + Performing Arts
+  + Music
+  + STEM
+  + Biology
+  + Business
+  + Communication
+  + Education
+  + Engineering
+  + Health professions
+  + Nursing
+  + Leisure and Recreation Studies
+  + Mathematics
+  + Psychology
+  + Undecided
+
+
+
+ 
+Understood re: test scores, gpa is helpful.
+ 
+Thank you!
+Trace
+
+
+
+ 
+__Tue, May 26, 2020 at 2:38 PM Tisleen__
+Hi Tracy,
+Sounds good! Just to quickly clarify on the below targeting before I pull a quote:
+We cannot target by test score, unfortunately, but I will use the 2.3 GPA as a minimum for all of the states/counties?
+Do you happen to have zip codes of those counties handy? If not, no worries – I will google it!
+Thanks!
+Tisleen
+
+
+__May 27, 2020 at 12:23 PM Tisleen__ 
+Hi Tracy!
+Circling back on this email based off the email from Christine regarding data. Do you want to move forward with the targeting and volume below? And if so, did you want to dedupe (sounds like you do) or purchase as is up to a $5,000 cap? Lastly, if so, I’ll send the agreement over to you, however do you think you’ll be able to turn around the signature by Friday as that’s when our next drop of names are?
+ 
+
+__May 27, 2020 at 4:27 PM Chelsea__
+I hope that you both had a nice Memorial Day weekend. I wanted to reach out about the Cappex High School Candidate file. 
+ 
+You should have received a link to a Dropbox folder just now. This is where you can put the file of email addresses from your system for us to use in the de-duplication process. 
+ 
+Once we have the file and the signed service order, we will be able to move forward running the query and de-duplicating the file. We will need to receive the Service Order and the list of email addresses no later than noon on Friday for us to be able to run the file this round. 
+ 
+Please let me know if you have any questions, or if you didn't receive the link to the Dropbox folder. 
+and
+ 
+Hi Christine, 
+ 
+I hope that you both had a nice Memorial Day weekend. I wanted to reach out about the Cappex High School Candidate file. 
+ 
+You should have received a link to a Dropbox folder just now. This is where you can put the file of email addresses from your system for us to use in the de-duplication process. 
+ 
+Once we have the file and the signed service order, we will be able to move forward running the query and de-duplicating the file. We will need to receive the Service Order and the list of email addresses no later than noon on Friday for us to be able to run the file this round. 
+ 
+Please let me know if you have any questions, or if you didn't receive the link to the Dropbox folder. 
+ 
+Best,
+Chelsea
+May 27, 2020 at 11:47 AM Chelsea
+Hi Chelsea, 
+I have uploaded the email addresses of the names already in our system to the Dropbox folder you created. Dropbox File.
+ 
+ 
+__June 5, 2020 at 10:49 AM Chelsea__
+Good morning Christine, 
+ 
+I wanted to get in touch to let you know that I have uploaded the deduplicated candidate file to the shared Dropbox folder. 
+ 
+Let me know if you have any questions or if you'd like for me to share the folder with anyone else on your team. 
+ 
+Have a great weekend!
+ 
+__Monday, June 15, 2020 8:56 AM Chris__
+ 
+Good Morning Tisleen,
+Happy Monday. I wanted to follow up on the Cappex leads that were uploaded to our database last week. I notice that about 2,400 names, or 37%, are from locations outside of our geo-targets. Additionally, none of the leads come from Maine. (Original specifications were Maine - all counties, MA - Middlesex county, NH - Hillsborough, Rockingham, and Strafford counties, and CT - Hartford and Fairfield counties.
+I have attached a county map illustrating the geographic distributionof the actual names provided.
+
+Let me know how we can help in resolving this issue.
+Thank you,
+Christine Iyer
+ 
+__Monday, June 15, 2020 9:14 PM Tisleen__
+ 
+Hi Christine – thanks for bringing this to my attention – that is so strange – let me go back to the data team and see what they sent – we will get this resolved! You have my word.
+Thank you!
+Tisleen
+ 
+__Tue, Jun 16, 2020 at 10:29 PM Tisleen__
+Hi Christine,
+I wanted to update you that we’re working on this but I may not have an answer for you till Friday. Thank you for your patience.
+Tisleen
+ 
+ 
+ 
+ 
+
+__Tue, Jun 18, 2020 at 12:31 PM Tisleen__
+Hi team,
+I’m looping in my colleague, Chelsea Hunter, that will let you know how we going to proceed. We’re waiting for final approval from finance but we will get you updated info on what happened and what we plan to do sooner rather than later.
+Thanks again for our patience!
+Tisleen
+ 
+__Tue, Jun 24, 2020 at 9:06 AM Chris__
+ 
+Hi Tisleen, 
+Hope you're well. We just wanted to check in on the Cappex leads. Any news?
+ 
+__Tue, Jun 24, 2020 10:23 PM Tisleen__
+
+Hi Chris,
+I’m so sorry – I thought we closed this loop on this. Chelsea has been out for a few days but we will get back to you this week. In short, we’re going to send you all more candidates – some for free, and the rest, we can continue to fill your contract. The order was up to $5k and we only filled about ~$2k of it. Chelsea has the details on what happened. We will be sure to close the loop with this by Friday!
+Thank you!
+ 
+__Tue, Jun 25, 2020 at 3:55 PM Chelsea__
+My apologies for the delay, as Tisleen mentioned, I was offline a few days this week. On Tuesday we're going to send over a new file that contains: 
+ 
+Maine candidates- this was an error on my part, I missed Maine when the query was initially run, so we're going to send over 2,989 candidates from Maine, which will get us up to the original cap of 9,544 candidates. 
+Zip Code Candidates- This was a slight miscommunication internally. We ran the query using the first 3 digits of the zip codes, not realizing that Tisleen had been working with you on the full 5 digit zip codes, so this is where the candidates came from outside of your original geo targeting. We will be sending 2,425 of those to make up for the 37% that you identified as coming from outside of your targeting. 
+I'm sorry for any inconvenience that this has caused, I hope that this new file will get you the candidates that you were looking for. We'll be back in touch on Tuesday when we have the new files uploaded to the Dropbox folder. 
+ 
+Let me know if you have any questions on this. 
+
+__Tue, June 30, 2020 at 6::06 PM Chelsea__
+ 
+Hi Chris, 
+ 
+I hope that you've had a good day so far. I wanted to let you know that I uploaded the new candidate files to the shared Dropbox folder. 
+ 
+Please let Tisleen and I know if you have any questions or are unable to access the file. 
+ 
+Have a good rest of the week!
+ 
+Best,
+Chelsea
+
+__Wed, July 1, 2020 at 11:01 AM Chris__
+
+Hi Chelsea, 
+ 
+Thanks for updating the Dropbox folder. Before passing on the files to the Salesforce Admin person who is responsible for uploading new records, I did a quick analysis of the cities and states. I think there might be a mix-up because  2,334 students out of the 3,307 sent are from out of the areas we need. It seems like the only new students are the ~700 from Maine. 
+Thank you, 
+ 
+Christine Iyer
+ 
+__Wed, July 1, 12:15 PM Chelsea__
+ 
+Hi Christine, 
+ 
+We ran 2 queries for you this time around. The first file are the 600 Maine candidates that are making up for them not being included in the initial file run. The second file are candidates from your targeted zip code list. 
+ 
+In the first file we ran the zip codes with only the first 3 digits, so it sent some candidates that were outside of your geographic targeting. So this time we ran a query with the full zip codes to give you more candidates in your targeted area. 
+ 
+Please let Tisleen and I know if you have any other questions, we're happy to help. 
+ 
+Best,
+Chelsea
+ 
+__Wed, July 1, 12:54PM Chris__
+Hi Chelsea, 
+ 
+That's very strange because those ~2,300 zipcodes are not any we target. I have attached a list of the zip codes within our target. 
+Thank you, 
+ 
+Christine Iyer
+[Zip Codes Targeted](https://mail.google.com/mail/u/0?ui=2&ik=4d7f0e31f6&attid=0.1&permmsgid=msg-a:r-4699571428206252762&th=1730b4cdcc289cb8&view=att&disp=inline&realattid=f_kc3lmzpa0)
+ 
+__Tue July 7, 10:51AM Chelsea__
+ 
+Hi Christine, 
+ 
+Thank you for your patience while Tisleen and I dug into the file to see where the zip code discrepancy is coming from. It looks like the pdf that you sent over doesn't include the CT zip codes 060, 061, 064, 066, 068, 069 that we included in the file. We pulled those from the excel sheet that was sent over by Tracy initially (attached here). 
+ 
+Please let us know if you have any other questions on the makeup file, we're always happy to help. 
+ 
+Best,
+Chelesa
+ 
+__Tue July 7, 11:26AM Chris__
+ 
+You are right, I forgot to add CT to this list. Here is the revised zip code list.
+[Zip Codes Taargeted Revised](https://mail.google.com/mail/u/0?ui=2&ik=4d7f0e31f6&attid=0.1&permmsgid=msg-a:r-8163453591618216710&th=17329e2de9ae0ee6&view=att&disp=inline&realattid=f_kcc36be10)
+ 
+__Friday July 10, 2020 Tisleen__
+ 
+Hi Christine,
+Happy Friday – just wanted to give you an update. Since the CT zipcodes weren’t on the original contract we would have to do something new. I’m confirming with accounting if we ever hit the $5k you allocated to this purchase or have leftover dollars to use for CT zipcodes. Once we hear back we’ll get back to you both with a few options.
+Thanks!
+Tisleen
+ 
+ 
+ 
+__Friday July 10, 2020 Tracy__
+Hi Tisleen,
+Chris had a chance today to go through all the names and determine what we initially requested/needed (via email, not sure how the contract requested something so different) vs what we received/don't need.
+ 
+Please see the screenshot below for the totals. Column 2 is the number of names we should be invoiced for: 4,758 * $.45 = $2,141.10.
+ 
+Feel free of course to double-check this against your records and let me know if you have any questions. As for the names we received which we do not need, I am happy to sign something attesting to removing them from our database. We have no intention of using them as they are not areas we are currently focusing on.
+ 
+ 
+
+
+# Findings
+
+```{r echo=FALSE}
+Cappex_1 <- read.csv("C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_June_Cappex_Search/Cappex_1.csv", header = T, stringsAsFactors = F)
+
+Cappex_2 <- read.csv("C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_June_Cappex_Search/Cappex_2.csv", header = T, stringsAsFactors = F)
+
+
+allCappex <- rbind.data.frame(Cappex_1, Cappex_2)
+
+write.csv(allCappex, "C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_June_Cappex_Search/CappexProvidedLeads.csv")
+
+```
+
+![Lead Names Provided by Cappex]("C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_June_Cappex_Search/TargetedAreas.png")
+
+![What we want vs what we don't want]("C:/Users/christine.iyer/Box/Search/FY20_Search/FY20_June_Cappex_Search/Breakdown.png")
+
+
+
+\href{https://www.wrike.com/open.htm?id=525346252}{{\color{blue}{\underline{Wrike Project Details}}}}
+
+\href{https://github.com/edithbird/fy20_cybersecurity}{{\color{blue}{\underline{Github Repository}}}}
+
+
+```{r bib, include=FALSE}
+# create a bib file for the R packages used in this document
+knitr::write_bib(c('base', 'rmarkdown'), file = 'skeleton.bib')
+```
